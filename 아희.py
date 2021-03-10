@@ -1,3 +1,4 @@
+#!python3
 코드공간 = []
 def 세종어제(훈민정음):
     나랏말씀 = []
@@ -34,7 +35,13 @@ def 공간이동(왼오른, 위아래, 얼마나, 코드):
     
     return 왼오른, 위아래
 
-def 아희처리(변환수치, 코드):
+def 출력작성(파일이름="", 추가내용=""):
+    if 파일이름 != "":
+        출력파일 = open(파일이름, mode="at", encoding="utf-8")
+        출력파일.write(추가내용)
+        출력파일.close()
+
+def 아희처리(변환수치, 코드, 파일이름=""):
     global 코드공간
     쌓이는곳 = [[] for i in range(27)]
     줄세우는곳 = []
@@ -100,16 +107,20 @@ def 아희처리(변환수치, 코드):
                 if len(지금있는곳):
                     if 글자[2] == 21:
                         if 쌓나세우나:
+                            출력작성(파일이름, str(지금있는곳[-1]))
                             print(지금있는곳[-1], end = '')
                             del 지금있는곳[-1]
                         else:
+                            출력작성(파일이름, str(지금있는곳[0]))
                             print(지금있는곳[0], end = '')
                             del 지금있는곳[0]
                     elif 글자[2] == 27:
                         if 쌓나세우나:
+                            출력작성(파일이름, chr(지금있는곳[-1]))
                             print(chr(지금있는곳[-1]), end = '')
                             del 지금있는곳[-1]
                         else:
+                            출력작성(파일이름, chr(지금있는곳[0]))
                             print(chr(지금있는곳[0]), end = '')
                             del 지금있는곳[0]
                     else:
@@ -284,12 +295,15 @@ def 인터프리터():
         if not path.isfile(파일이름):
             raise Exception("그런 파일은 없습니다.")    
         try:
-            if sys.argv[1].split(".")[1] != "아희":
+            if 파일이름.split(".")[-1] not in ["아희", "aheui"]:
                 raise Exception("아희코드 파일이 아닙니다.")
             with open(파일이름, mode="rt", encoding="utf-8") as 파일:
                 코드 = [한줄 for 한줄 in 파일]
                 파일.close()
-            아희처리(한글처리(코드), 코드)
+            출력 = ".".join(파일이름.split(".")[:-1])+".out"
+            출력파일 = open(출력, mode="wt", encoding="utf-8")
+            출력파일.close()
+            아희처리(한글처리(코드), 코드, 출력)
             return 코드공간
         except Exception as 에러:
             print("에러가 발생했습니다.: ", 에러)
