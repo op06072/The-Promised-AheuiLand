@@ -1,1 +1,2 @@
-# The-Promised-AheuiLand
+# 약속의 아희랜드
+약속으로 만든 아희 인터프리터
