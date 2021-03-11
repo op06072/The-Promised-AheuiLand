@@ -12,7 +12,7 @@
     + 그러나 이 경우 minimist를 설치한 경로에서만 사용하실 수 있습니다.
 
 * 아희.약속을 다운받습니다.
-  - windows: ```(new-object Net.WebClient).DownloadFile("https://raw.githubusercontent.com/op06072/The-Promised-AheuiLand/master/아희.약속", "./아희.약속")
+  - windows: ```(new-object Net.WebClient).DownloadFile("https://raw.githubusercontent.com/op06072/The-Promised-AheuiLand/master/아희.약속", "./아희.약속")```
   - linux: ```wget https://raw.githubusercontent.com/op06072/The-Promised-AheuiLand/master/아희.약속```
   - macOS: ```curl -O -L https://raw.githubusercontent.com/op06072/The-Promised-AheuiLand/master/아희.약속```
 
