@@ -31,31 +31,87 @@
 	process.stdout.write(글 ? 글.toString() : '');
 ***
 
-번역(파이썬) (글) 입력받기
+번역(파이썬) (글)을/를 (타입)으로/로 입력받기
 ***
-	return 입력용 = input(글);
+	입력용 = input(글)
+	if 타입 == "수":
+		return int(입력용)
+	elif 타입 == "글":
+		return 입력용
 ***
 
-번역(자바스크립트) (글) 입력받기
+번역(자바스크립트) (글)을/를 (타입)으로/로 입력받기
 ***
-	process.stdout.write(글);
-	const readline = require('readline');
-	const rl = readline.createInterface({
-		input: process.stdin,
-		output: process.stdout
-	});
-	입력용 = undefined;
-	rl.on('line', function(line) {
-		입력용 = line;
-		rl.close();
-	}).on('close', function() {
-		process.exit();
-	});
-	const interval = setInterval(() => {
-		if (입력용 !== undefined) {
-			clearInterval(interval);
-		}
-	}, 1000);
+    var left = [];
+    var os = require('os');
+    var fs = require('fs');
+    var util = require('util');
+    var argv = require('minimist')(process.argv.slice(2), {
+        default: {
+            'interactive-message': 'true'
+        }
+    });
+    var limit = 255;
+    var platform = os.platform();
+    var input;
+    if (argv['interactive-message'] !== 'false') {
+        switch (타입) {
+        case '수':
+            process.stderr.write(글);
+            break;
+        case '문자':
+            process.stderr.write(글);
+            break;
+        }
+    }
+    if (left.length !== 0) input = left.shift();
+    else {
+        switch (platform) {
+        case 'win32':
+            input = (function () {
+                var temp = fs.readSync(process.stdin.fd, limit, 0, 'utf8')[0];
+                return (left = temp.split(/\r?\n/g)).shift();
+            })();
+            break;
+        case 'linux': case 'darwin':
+            input = (function () {
+                var filename = '/dev/stdin';
+                var res = fs.existsSync(filename);
+                if (!res) filename = '/dev/tty';
+                var fd = fs.openSync(filename, 'rs');
+                var buffer = Buffer.alloc(limit);
+                fs.readSync(fd, buffer, 0, buffer.length);
+                fs.closeSync(fd);
+                return (left = buffer.toString().split(/\r?\n/g)).shift();
+            })();
+            break;
+        default:
+            throw 'unexpected platform: ' + platform;
+            break;
+        }
+        left = left.filter(function (v) {return v !== ''});
+    }
+    var _input = input;
+    var _left = '';
+    switch (타입) {
+    case '수':
+        input = /^[-+]?\d+/.exec(_input);
+        if (input) {
+            _left = _input.substr(input[0].length);
+            input = input[0] | 0;
+        } else {
+            input = 0;
+        }
+        break;
+    case '문자':
+        input = _input.codePointAt();
+        _left = _input.substr(String.fromCodePoint(input).length);
+        break;
+    }
+    if (_left) {
+        left.unshift(_left);
+    }
+    return input;
 ***
 
 번역(파이썬) 정수 (글)
@@ -108,9 +164,23 @@
     배열.pop();
 ***
 
+번역(파이썬) 실행인자
+***
+	import sys
+	return sys.argv
+***
+
 번역(자바스크립트) 실행인자
 ***
 	return yaksokList([void 0, ...process.argv]);
+***
+
+번역(파이썬) (경로) 텍스트 읽기
+***
+	with open(경로, mode="rt", encoding="utf-8") as 파일:
+		내용 = 파일.read()
+		파일.close()
+	return 내용
 ***
 
 번역(자바스크립트) (경로) 텍스트 읽기
@@ -118,9 +188,19 @@
     return require('fs').readFileSync(경로, 'utf8');
 ***
 
+번역(파이썬) (문자열) 줄바꿈마다 쪼개기
+***
+	return 문자열.split("\n")
+***
+
 번역(자바스크립트) (문자열) 줄바꿈마다 쪼개기
 ***
     return yaksokList([void 0, ...문자열.split(/\r?\n/g)]);
+***
+
+번역(파이썬) (문자열)의 확장자 확인용
+***
+	return 문자열.split(".")
 ***
 
 번역(자바스크립트) (문자열)의 확장자 확인용
@@ -290,13 +370,11 @@
 					방향정렬: 방향정렬 * -1
 			아니면서 초 = 7 이면
 				만약 글자[3] = 21 이면
-					"숫자를 입력해 주세요.\n" 입력받기
-					삽입: 입력용
+					삽입:"숫자를 입력해 주세요.\n"를 '수'로 입력받기
 					삽입: 정수 삽입
 					"\n" 출력
 				아니면서 글자[3] = 27 이면
-					"문자 하나를 입력해 주세요.\n" 입력받기
-					삽입: 입력용
+					삽입: "문자 하나를 입력해 주세요.\n"를 '문자'로 입력받기
 					삽입: 삽입의 유니코드수
 					"\n" 출력
 				아니면
@@ -441,8 +519,7 @@
 		코드: []
 		"아희 코드를 입력후 엔터를 두번치시면 코드가 실행됩니다. (엔터 한번은 개행이 됩니다.)" 보여주기
 		반복
-			'' 입력받기
-			한줄: 입력용
+			한줄: ''을 '문자'로 입력받기
 			만약 한줄 = '' 이면
 				반복 그만
 			코드 뒤에 한줄을 추가
@@ -450,8 +527,7 @@
 	반복
 		실행
 		"\n다른 코드를 실행해 보시겠습니까? (네/아니오)" 보여주기
-		'' 입력받기
-		선택: 입력용
+		선택: ''을 '문자'로 입력받기
 		만약 선택 != "네" 이면
 			반복 그만
 
