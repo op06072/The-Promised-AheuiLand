@@ -7,9 +7,14 @@
 
 * nodejs에 필요한 패키지를 설치합니다.
   - windows: ```npm install -g minimist```
-  - osx & linux: ```sudo npm install -g minimist```
+  - macOS & linux: ```sudo npm install -g minimist```
     + ```Cannot find module 'minimist'```에러시 ```npm install minimist```를 통해 해결할 수 있습니다.
     + 그러나 이 경우 minimist를 설치한 경로에서만 사용하실 수 있습니다.
+
+* 아희.약속을 다운받습니다.
+  - windows: ```(new-object Net.WebClient).DownloadFile("https://raw.githubusercontent.com/op06072/The-Promised-AheuiLand/master/아희.약속", "./아희.약속")
+  - linux: ```wget https://raw.githubusercontent.com/op06072/The-Promised-AheuiLand/master/아희.약속```
+  - macOS: ```curl -O -L https://raw.githubusercontent.com/op06072/The-Promised-AheuiLand/master/아희.약속```
 
 * ```package.yaml``` 파일을 만들고 다음과 같이 입력합니다.
 ```
