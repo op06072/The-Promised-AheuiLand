@@ -3,7 +3,12 @@
 <br>파이썬3로 작성된 [아희.py](https://github.com/op06072/The-Promised-AheuiLand/blob/master/아희.py)를 약속 언어로 이식하여 만들었습니다.
 
 # 사용법
-[yaksok.js](https://github.com/yaksok/yaksok.js)를 참고하여 nodejs와 yaksok.js를 설치합니다.
+* [yaksok.js](https://github.com/yaksok/yaksok.js)를 참고하여 nodejs와 yaksok.js를 설치합니다.
+
+* nodejs에 필요한 패키지를 설치합니다.
+  - windows: ```npm install -g minimist```
+  - osx & linux: ```sudo npm install -g minimist```
+    + ```Cannot find module 'minimist'```에러시 ```npm install minimist```를 통해 해결할 수 있습니다. 그러나 이 경우 minimist를 설치한 경로에서만 사용하실 수 있습니다.
 
 * ```package.yaml``` 파일을 만들고 다음과 같이 입력합니다.
 ```
